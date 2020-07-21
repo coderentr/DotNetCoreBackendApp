@@ -21,6 +21,7 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetList()
         {
+            
             var result = _productService.GetList();
             if (result.Success)
             {

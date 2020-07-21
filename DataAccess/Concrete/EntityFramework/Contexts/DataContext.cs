@@ -10,7 +10,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connectionString: @"Server=.;Database=Northwind; Trusted_Connection=true");
+            optionsBuilder.UseSqlServer(connectionString: @"data source=.;initial catalog=NORTHWIND; Trusted_Connection=Yes;");
         }
         public DbSet<Product> Products { get; set;  }
     }
