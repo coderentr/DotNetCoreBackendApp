@@ -15,6 +15,9 @@ namespace Business.DependencyResolvers
         {
             builder.RegisterType<ProductService>().As<IProductService>();
             builder.RegisterType<EfProfuctDal>().As<IProductDal>();
+
+            builder.RegisterType<CategoryService>().As<ICategoryService>();
+            builder.RegisterType<EfCategoryDal>().As<ICategoryDal>();
         }
     }
 }

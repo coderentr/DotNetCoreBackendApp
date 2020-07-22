@@ -13,5 +13,6 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
             optionsBuilder.UseSqlServer(connectionString: @"data source=.;initial catalog=NORTHWIND; Trusted_Connection=Yes;");
         }
         public DbSet<Product> Products { get; set;  }
+        public DbSet<Category> Categories { get; set; }
     }
 }
