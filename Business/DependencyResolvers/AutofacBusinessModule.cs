@@ -18,6 +18,9 @@ namespace Business.DependencyResolvers
 
             builder.RegisterType<CategoryService>().As<ICategoryService>();
             builder.RegisterType<EfCategoryDal>().As<ICategoryDal>();
+
+            builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<EfUserDal>().As<IUserDal>();
         }
     }
 }
