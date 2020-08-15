@@ -11,7 +11,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connectionString: @"data source=.;initial catalog=NORTHWIND; Trusted_Connection=Yes;");
+            optionsBuilder.UseSqlServer(connectionString: @"data source=.;initial catalog=ButcherDB; Trusted_Connection=Yes;");
         }
         public DbSet<Product> Products { get; set;  }
         public DbSet<Category> Categories { get; set; }

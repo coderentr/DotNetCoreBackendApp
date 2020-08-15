@@ -32,7 +32,7 @@ namespace Business.Concrete
 
         public IDataResult<Product> GetById(int productId)
         {
-            return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductID == productId));
+            return new SuccessDataResult<Product>(_productDal.Get(p => p.Id == productId));
         }
 
         public IDataResult<List<Product>> GetList()
@@ -42,7 +42,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetListByCategory(int categoryId)
         {
-            return new SuccessDataResult<List<Product>>(_productDal.GetList(c => c.CategoryID == categoryId).ToList());
+            return new SuccessDataResult<List<Product>>(_productDal.GetList(c => c.Id == categoryId).ToList());
         }
 
         public IResult Update(Product product)

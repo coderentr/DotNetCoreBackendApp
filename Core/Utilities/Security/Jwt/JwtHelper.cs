@@ -42,7 +42,7 @@ namespace Core.Utilities.Security.Jwt
             var jwt = new JwtSecurityToken(
                 issuer:tokenOptions.Issuer,
                 audience:tokenOptions.Audience,
-                expires:_accesTokenExpiration ,
+                expires:default ,
                 notBefore:DateTime.Now,
                 claims:SetClaims(user, operationClaims),
                 signingCredentials:signingCredentials
@@ -55,7 +55,7 @@ namespace Core.Utilities.Security.Jwt
             //claims.Add(new Claim("email", user.Email));
             claims.AddNameIdentifier(user.Id.ToString());
             claims.AddEmail(user.Email);
-            claims.AddName($"{user.FirsName} {user.LastName}");
+            claims.AddName($"{user.FirstName} {user.LastName}");
             claims.AddRoles(operationClaims.Select(c => c.Name).ToArray());
             return claims;
         }

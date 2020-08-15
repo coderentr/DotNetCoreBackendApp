@@ -33,7 +33,7 @@ namespace Business.Concrete
 
         public IDataResult<Category> GetByCategory(int Id)
         {
-            return new SuccessDataResult<Category>(_categoryDal.Get(p => p.CategoryID == Id));
+            return new SuccessDataResult<Category>(_categoryDal.Get(p => p.Id == Id));
         }
 
         public IDataResult<List<Category>> GetList()

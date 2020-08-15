@@ -7,11 +7,19 @@ namespace Entities.Concrete
 {
     public class Product :IEntity
     {
-        public int ProductID { get; set; }
-        public string ProductName { get; set; }
-        public int CategoryID { get; set; }
-        public string QuantityPerUnit { get; set; }
-        public decimal UnitPrice { get; set; }
-        public short UnitsInStock { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Properties { get; set; }
+        public decimal Price { get; set; }
+        public decimal DiscountPrice { get; set; }
+        public int StokCount { get; set; }
+        public string ImgUrl { get; set; }
+        public int CategoryId { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
