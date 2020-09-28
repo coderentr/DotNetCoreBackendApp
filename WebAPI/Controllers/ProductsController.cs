@@ -46,14 +46,14 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpGet("getbyid")]
-        public IActionResult GEtById(int productId)
+        public IActionResult GetById(int productId)
         {
             var result = _productService.GetById(productId);
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
         [HttpPost("add")]
         public IActionResult Add([FromBody]Product product)
@@ -71,9 +71,9 @@ namespace WebAPI.Controllers
             var result = _productService.Update(product);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
         [HttpPost("delete")]
         public IActionResult Delete(Product product)
@@ -84,6 +84,17 @@ namespace WebAPI.Controllers
                 return Ok(result.Message);
             }
             return BadRequest(result.Message);
+        }
+        [HttpDelete("deleteById")]
+        public IActionResult DeleteById(int id)
+        {
+            var product = _productService.GetById(id).Data;
+            var result = _productService.Delete(product);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
         [HttpPost("UpImg")]
         public bool UploadImg()

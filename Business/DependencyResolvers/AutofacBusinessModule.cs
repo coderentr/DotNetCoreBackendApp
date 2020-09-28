@@ -27,6 +27,8 @@ namespace Business.DependencyResolvers
             builder.RegisterType<AuthService>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
+            builder.RegisterType<MasterService>().As<IMasterService>();
+            builder.RegisterType<EfMasterDal>().As<IMasterDal>();
 
         }
     }

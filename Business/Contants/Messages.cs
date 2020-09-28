@@ -18,6 +18,8 @@ namespace Business.Contants
         public static string UserAlreadyExist = "Kullanıcı zaten mevcut.";
         public static string UserRegistered = "Kullanıcı oluşturuldu.";
         public static string AccessTokenCreated = "Token oluşturuldu.";
+        public static string MasterUpdated = "İşlem Başarıyla Gerçekleşti";
         
+
     }
 }
