@@ -20,9 +20,9 @@ namespace Business.Concrete
         }
         public IResult Add(Category category)
         {
+            category.CreatedDate = DateTime.Now;
            _categoryDal.Add(category);
-            return new SuccessResult(Messages.CategoryAdded);
-
+            return new SuccessResult();
         }
 
         public IResult Delete(Category category)

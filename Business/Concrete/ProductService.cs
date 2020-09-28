@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Contants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,6 +21,7 @@ namespace Business.Concrete
         }
         public IResult Add(Product product)
         {
+            product.CreatedDate = DateTime.Now;
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
         }
@@ -47,6 +50,7 @@ namespace Business.Concrete
 
         public IResult Update(Product product)
         {
+            product.UpdatedDate = DateTime.Now;
             _productDal.Update(product);
             return new SuccessResult(Messages.ProductUpdated);
         }

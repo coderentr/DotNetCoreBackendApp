@@ -7,6 +7,7 @@ using Core.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -60,10 +61,14 @@ namespace WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
 
-            app.UseCors(builder=>builder.WithOrigins("myDomain").AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("myDomain").AllowAnyHeader());
 
             app.UseDeveloperExceptionPage();
 
@@ -73,9 +78,15 @@ namespace WebAPI
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Could Not Finf anything");
             });
         }
     }

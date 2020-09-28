@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
@@ -7,6 +8,7 @@ using Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WebAPI.Controllers
 {
@@ -15,21 +17,22 @@ namespace WebAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private IProductService _productService;
-        public ProductsController(IProductService productService)
+        public static IWebHostEnvironment _environment;
+        public ProductsController(IProductService productService, IWebHostEnvironment environment)
         {
             _productService = productService;
+            _environment = environment;
         }
         [HttpGet("getall")]
-        [Authorize()]
+        //[Authorize()]
         public IActionResult GetList()
         {
-            
             var result = _productService.GetList();
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
 
         [HttpGet("getlistbycategory")]
@@ -53,14 +56,14 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpPost("add")]
-        public IActionResult Add(Product product)
+        public IActionResult Add([FromBody]Product product)
         {
             var result = _productService.Add(product);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
         [HttpPost("update")]
         public IActionResult Update(Product product)
@@ -81,6 +84,25 @@ namespace WebAPI.Controllers
                 return Ok(result.Message);
             }
             return BadRequest(result.Message);
+        }
+        [HttpPost("UpImg")]
+        public bool UploadImg()
+        {
+            var httpRequest = HttpContext.Request;
+            foreach (var file in httpRequest.Form.Files)
+            {
+                var postedFile = file;
+                if (!Directory.Exists(_environment.WebRootPath + "\\Content\\Upload\\Img\\Product\\"))
+                {
+                    Directory.CreateDirectory(_environment.WebRootPath + "\\Content\\Upload\\Img\\Product\\");
+                }
+                using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Content\\Upload\\Img\\Product\\" + postedFile.FileName))
+                {
+                    postedFile.CopyTo(fileStream);
+                    fileStream.Flush();
+                }
+            }
+            return true;
         }
     }
 }
