@@ -23,8 +23,9 @@ namespace WebAPI.Controllers
             _productService = productService;
             _environment = environment;
         }
+
         [HttpGet("getall")]
-        //[Authorize()]
+        [Authorize()]
         public IActionResult GetList()
         {
             var result = _productService.GetList();
@@ -36,16 +37,18 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getlistbycategory")]
+        [Authorize()]
         public IActionResult GetListByCategory(int categoryId)
         {
             var result = _productService.GetListByCategory(categoryId);
             if (result.Success) 
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
             return BadRequest(result.Message);
         }
         [HttpGet("getbyid")]
+        [Authorize()]
         public IActionResult GetById(int productId)
         {
             var result = _productService.GetById(productId);
@@ -56,6 +59,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
+        [Authorize()]
         public IActionResult Add([FromBody]Product product)
         {
             var result = _productService.Add(product);
@@ -66,6 +70,8 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("update")]
+        [Authorize()]
+
         public IActionResult Update(Product product)
         {
             var result = _productService.Update(product);
@@ -76,6 +82,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("delete")]
+        [Authorize()]
         public IActionResult Delete(Product product)
         {
             var result = _productService.Delete(product);
@@ -86,6 +93,8 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpDelete("deleteById")]
+        [Authorize()]
+
         public IActionResult DeleteById(int id)
         {
             var product = _productService.GetById(id).Data;
@@ -97,6 +106,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("UpImg")]
+        [Authorize()]
         public bool UploadImg()
         {
             var httpRequest = HttpContext.Request;
@@ -111,6 +121,29 @@ namespace WebAPI.Controllers
                 {
                     postedFile.CopyTo(fileStream);
                     fileStream.Flush();
+                }
+            }
+            return true;
+        }
+        [HttpPost("deleteProductPhoto")]
+        [Authorize()]
+        public bool DeleteProductPhoto(int id)
+        {
+            var productUrl = _productService.GetById(id).Data;
+            if (productUrl!=null)
+            {
+                var data = productUrl.ImgUrl.Split(',');
+                try
+                {
+                    foreach (var item in data)
+                    {
+                        var file = _environment.WebRootPath + "\\Content\\Upload\\Img\\Product\\" + item;
+                        System.IO.File.Delete(file);
+                    }
+                }
+                catch (Exception)
+                {
+                    return false;
                 }
             }
             return true;

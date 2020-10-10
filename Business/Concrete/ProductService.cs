@@ -45,7 +45,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetListByCategory(int categoryId)
         {
-            return new SuccessDataResult<List<Product>>(_productDal.GetList(c => c.Id == categoryId).ToList());
+            return new SuccessDataResult<List<Product>>(_productDal.GetList(c => c.CategoryId == categoryId).ToList());
         }
 
         public IResult Update(Product product)

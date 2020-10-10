@@ -34,7 +34,7 @@ namespace Core.Utilities.Security.Jwt
             return new AccessToken
             {
                 Token = token,
-                Expiration = _accesTokenExpiration
+                Expiration = _accesTokenExpiration.AddMinutes(60)
             }; 
         }
         public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user, SigningCredentials signingCredentials, List<OperationClaim> operationClaims)
@@ -42,7 +42,7 @@ namespace Core.Utilities.Security.Jwt
             var jwt = new JwtSecurityToken(
                 issuer:tokenOptions.Issuer,
                 audience:tokenOptions.Audience,
-                expires:default ,
+                expires:DateTime.Now.AddMinutes(60),
                 notBefore:DateTime.Now,
                 claims:SetClaims(user, operationClaims),
                 signingCredentials:signingCredentials

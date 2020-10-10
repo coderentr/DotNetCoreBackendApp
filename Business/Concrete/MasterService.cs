@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Contants;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
@@ -11,8 +12,8 @@ namespace Business.Concrete
 {
     public class MasterService : IMasterService
     {
-        public EfMasterDal _masterDal { get; set; }
-        public MasterService(EfMasterDal masterDal)
+        public IMasterDal _masterDal;
+        public MasterService(IMasterDal masterDal)
         {
             _masterDal = masterDal;      
         }

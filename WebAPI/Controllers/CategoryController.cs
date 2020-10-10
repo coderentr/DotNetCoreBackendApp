@@ -7,18 +7,13 @@ using System.Threading.Tasks;
 using Business.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    public class CategoryModel
-    {
-        public Category category { get; set; }
-        public IFormFile img { get; set; }
-    }
-
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
@@ -31,6 +26,7 @@ namespace WebAPI.Controllers
             _environment = environment;
         }
         [HttpGet("getAllCategory")]
+        [Authorize()]
         public IActionResult GetCategoryList()
         {
             var result = _categoryservice.GetList();
@@ -41,6 +37,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("getCategory")]
+        [Authorize()]
         public IActionResult GetById(int Id)
         {
             var result = _categoryservice.GetByCategory(Id);
@@ -52,6 +49,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("addCategory")]
+        [Authorize()]
         public IActionResult AddCategory([FromBody] Category model)
         {
             model.CreatedDate = DateTime.Now;
@@ -63,6 +61,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("updateCategory")]
+        [Authorize()]
         public IActionResult UpdateCategory([FromBody]Category category)
         {
             category.UpdatedDate = DateTime.Now;
@@ -74,6 +73,7 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpPost("deleteCategory")]
+        [Authorize()]
         public IActionResult DeleteCategory(Category category)
         {
             var result = _categoryservice.Delete(category);
@@ -84,6 +84,7 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpDelete("delCatByCatId")]
+        [Authorize()]
         public IActionResult DeleteCatBtId(int id)
         {
             var cat = _categoryservice.GetByCategory(id).Data;
@@ -100,6 +101,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("UpImg")]
+        [Authorize()]
         public bool UploadImg()
         {
             var httpRequest = HttpContext.Request;
@@ -114,6 +116,29 @@ namespace WebAPI.Controllers
                 {
                     postedFile.CopyTo(fileStream);
                     fileStream.Flush();
+                }
+            }
+            return true;
+        }
+        [HttpPost("deleteCategoryPhoto")]
+        [Authorize()]
+        public bool DeleteCategoryPhoto(int id)
+        {
+            var categoryUrl = _categoryservice.GetByCategory(id).Data;
+            if (categoryUrl!=null)
+            {
+                var data = categoryUrl.ImgUrl.Split(',');
+                try
+                {
+                    foreach (var item in data)
+                    {
+                        var file = _environment.WebRootPath + "\\Content\\Upload\\Img\\Category\\" + item;
+                        System.IO.File.Delete(file);
+                    }
+                }
+                catch (Exception)
+                {
+                    return false;
                 }
             }
             return true;
